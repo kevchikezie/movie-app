@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -65,4 +66,23 @@ class People extends Model
     {
         return $this->hasToMany(Film::class);
     }
+
+    /**
+     * Return a formatted created date
+     * 
+     */
+    public function getCreatedAttribute()
+    {
+        return $this->created->format('Y-m-d H:i');
+    }
+
+    /**
+     * Return a formatted edited date
+     * 
+     */
+    public function getEditedAttribute()
+    {
+        return $this->edited->format('Y-m-d H:i');
+    }
+
 }
