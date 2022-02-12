@@ -23,16 +23,12 @@ return new class extends Migration
             $table->string('height');
             $table->string('mass');
             $table->string('skin_color');
-            $table->string('planet_id');
+            $table->bigInteger('planet_id')->unsigned();
             $table->datetime('created');
             $table->datetime('edited');
             $table->timestamps();
 
-            $table->foreign('planet_id')
-                  ->references('id')
-                  ->on('planets')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
+            $table->foreign('planet_id')->references('id')->on('planets');
         });
     }
 

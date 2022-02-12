@@ -15,21 +15,12 @@ return new class extends Migration
     {
         Schema::create('film_planet', function (Blueprint $table) {
             $table->id();
-            $table->integer('planet_id');
-            $table->integer('film_id');
+            $table->bigInteger('planet_id')->unsigned();
+            $table->bigInteger('film_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('planet_id')
-                  ->references('id')
-                  ->on('planets')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
-
-            $table->foreign('film_id')
-                  ->references('id')
-                  ->on('films')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
+            $table->foreign('planet_id')->references('id')->on('planets');
+            $table->foreign('film_id')->references('id')->on('films');
         });
     }
 

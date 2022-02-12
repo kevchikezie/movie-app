@@ -15,21 +15,12 @@ return new class extends Migration
     {
         Schema::create('film_people', function (Blueprint $table) {
             $table->id();
-            $table->integer('people_id');
-            $table->integer('film_id');
+            $table->bigInteger('people_id')->unsigned();
+            $table->bigInteger('film_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('people_id')
-                  ->references('id')
-                  ->on('people')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
-
-            $table->foreign('film_id')
-                  ->references('id')
-                  ->on('films')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
+            $table->foreign('people_id')->references('id')->on('people');
+            $table->foreign('film_id')->references('id')->on('films');
         });
     }
 
