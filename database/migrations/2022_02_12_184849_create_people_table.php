@@ -24,8 +24,8 @@ return new class extends Migration
             $table->string('mass');
             $table->string('skin_color');
             $table->bigInteger('planet_id')->unsigned();
-            $table->datetime('created');
-            $table->datetime('edited');
+            $table->timestamp('created')->nullable();
+            $table->timestamp('edited')->nullable();
             $table->timestamps();
 
             $table->foreign('planet_id')->references('id')->on('planets');

@@ -24,8 +24,8 @@ return new class extends Migration
             $table->string('climate');
             $table->string('terrain');
             $table->string('surface_water');
-            $table->datetime('created');
-            $table->datetime('edited');
+            $table->timestamp('created')->nullable();
+            $table->timestamp('edited')->nullable();
             $table->timestamps();
         });
     }
