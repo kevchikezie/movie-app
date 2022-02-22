@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Mocks\SwapiMock; //temp
 
 use App\Models\Film;
+use App\Models\Planet;
+use App\Mocks\SwapiMock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
@@ -20,7 +21,8 @@ class SwapiController extends Controller
      */
     public function index()
     {
-        $this->getFilms();   
+        // $this->getFilms();   
+        $this->getPlanets();   
     }
 
     /**
@@ -74,37 +76,44 @@ class SwapiController extends Controller
      */
     public function getPlanets()
     {
-        if (Film::count() < 1) {
-            $url = $this->baseUrl . 'films';
+        if (Planet::count() < 1) {
+            $url = $this->baseUrl . 'planets';
 
-            $films = (config('app.env') === 'mock') ? SwapiMock::data() : Http::get($url);
+            $planets = (config('app.env') === 'mock') ? SwapiMock::planets() : Http::get($url);
 
-            $newFilms = [];
+            $newPlanets = [];
             $data = [];
 
-            foreach ($films['results'] as $film) {  
+            foreach ($planets['results'] as $film) {  
                 $created = explode('.', $film['created']);
                 $created = $created[0];
 
                 $edited = explode('.', $film['edited']);
                 $edited = $edited[0];
 
-                $data['title'] = $film['title']; 
-                $data['episode_id'] = $film['episode_id'];
-                $data['opening_crawl'] = $film['opening_crawl'];
-                $data['director'] = $film['director'];
-                $data['producer'] = $film['producer'];
-                $data['release_date'] = $film['release_date'];
+                $data['name'] = $film['name']; 
+                $data['diameter'] = $film['diameter'];
+                $data['rotation_period'] = $film['rotation_period'];
+                $data['orbital_period'] = $film['orbital_period'];
+                $data['gravity'] = $film['gravity'];
+                $data['population'] = $film['population'];
+                $data['climate'] = $film['climate'];
+                $data['terrain'] = $film['terrain'];
+                $data['surface_water'] = $film['surface_water'];
                 $data['created'] = $created;
                 $data['edited'] = $edited;
                 $data['created_at'] = now();
                 $data['updated_at'] = now();
                 
-                array_push($newFilms, $data);
+                array_push($newPlanets, $data);
             }
 
-            Film::insert($newFilms);
+            Planet::insert($newPlanets);
         }
+
+        Cache::remember('cachedPlanets', 1800, function () {
+            return Planet::all();
+        });
     }
 
 }
