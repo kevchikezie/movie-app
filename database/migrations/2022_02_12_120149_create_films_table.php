@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->integer('episode_id');
-            $table->string('opening_crawl');
+            $table->longText('opening_crawl');
             $table->string('director');
             $table->string('producer');
             $table->date('release_date');
-            $table->datetime('created');
-            $table->datetime('edited');
+            $table->timestamp('created')->nullable();
+            $table->timestamp('edited')->nullable();
             $table->timestamps();
         });
     }
