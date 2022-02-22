@@ -38,6 +38,7 @@ class SwapiController extends Controller
             $url = $this->baseUrl . 'films';
 
             $films = (config('app.env') === 'mock') ? SwapiMock::films() : Http::get($url);
+            Cache::put('filmJson', $films, 1800);
 
             $newFilms = [];
             $data = [];
@@ -82,6 +83,7 @@ class SwapiController extends Controller
             $url = $this->baseUrl . 'planets';
 
             $planets = (config('app.env') === 'mock') ? SwapiMock::planets() : Http::get($url);
+            Cache::put('planetJson', $planets, 1800);
 
             $newPlanets = [];
             $data = [];
@@ -129,6 +131,7 @@ class SwapiController extends Controller
             $url = $this->baseUrl . 'people';
 
             $people = (config('app.env') === 'mock') ? SwapiMock::people() : Http::get($url);
+            Cache::put('peopleJson', $people, 1800);
 
             $newPeople = [];
             $data = [];
