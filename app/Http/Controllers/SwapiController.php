@@ -22,8 +22,8 @@ class SwapiController extends Controller
      */
     public function index()
     {
-        // $this->getFilms();   
-        // $this->getPlanets();   
+        $this->getFilms();   
+        $this->getPlanets();   
         $this->getPeople();
     }
 
@@ -130,7 +130,7 @@ class SwapiController extends Controller
 
             $people = (config('app.env') === 'mock') ? SwapiMock::people() : Http::get($url);
 
-            $newpeople = [];
+            $newPeople = [];
             $data = [];
 
             foreach ($people['results'] as $person) {  
@@ -141,9 +141,10 @@ class SwapiController extends Controller
                 $edited = $edited[0];
 
                 $planet = explode('/', $person['homeworld']);
-                $planetId = $planet[count($planet) - 2];
+                $planetId = $planet[(int) count($planet) - 2];
 
                 $exists = Planet::find($planetId);
+
                 if ($exists) {
                     $data['name'] = $person['name']; 
                     $data['birth_year'] = $person['birth_year'];
@@ -159,11 +160,11 @@ class SwapiController extends Controller
                     $data['created_at'] = now();
                     $data['updated_at'] = now();
                     
-                    array_push($newpeople, $data);
-                }
+                    array_push($newPeople, $data);
+                } 
             }
-
-            People::insert($newpeople);
+            
+            People::insert($newPeople);
         }
 
         Cache::remember('cachedPeople', 1800, function () {
